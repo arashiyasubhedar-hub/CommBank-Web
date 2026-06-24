@@ -36,7 +36,20 @@ export function GoalManager(props: Props) {
   useEffect(() => {
     setName(goal.name)
   }, [goal.name])
-
+const pickEmojiOnClick = async (emoji: any) => {
+    if (props.goal) {
+      const updatedGoal: Goal = {
+        ...props.goal,
+        name: name ?? props.goal.name,
+        targetDate: targetDate ?? props.goal.targetDate,
+        targetAmount: targetAmount ?? props.goal.targetAmount,
+        icon: emoji.native, 
+      }
+      dispatch(updateGoalRedux(updatedGoal))
+      await updateGoalApi(props.goal.id, updatedGoal)
+    }
+  }
+  
   const updateNameOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const nextName = event.target.value
     setName(nextName)
